@@ -1,0 +1,2 @@
+DATABASE_URL='mysql://name_user:password@localhost:3306/name_db'
+PORT=5000

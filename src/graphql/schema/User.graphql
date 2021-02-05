@@ -30,6 +30,7 @@ enum ROLES {
 }
 type Query {
   hello: String
+  getUsers:[User]
 }
 
 type Mutation {
