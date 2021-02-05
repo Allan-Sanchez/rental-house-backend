@@ -1,0 +1,37 @@
+scalar Date
+
+type User {
+  uuid: ID
+  name: String
+  password: String
+  age: Int
+  address: String
+  dpi: String
+  phone: String
+  role: ROLES
+  createdAt: Date
+}
+input UserInput {
+  name: String!
+  password: String!
+  age: Int!
+  address: String!
+  dpi: String!
+  phone: String!
+  role: ROLES!
+}
+type Token {
+  token: String
+}
+
+enum ROLES {
+  USER
+  ADMIN
+}
+type Query {
+  hello: String
+}
+
+type Mutation {
+  newUser(fields: UserInput): User
+}
