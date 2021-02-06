@@ -29,8 +29,8 @@ enum ROLES {
   ADMIN
 }
 type Query {
-  hello: String
-  getUsers:[User]
+  getUsers:[User!]
+  getUser(uuid:String!):User!
 }
 
 type Mutation {
