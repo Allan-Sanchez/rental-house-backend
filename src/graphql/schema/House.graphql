@@ -1,0 +1,18 @@
+type Image {
+  uuid: String
+  name: String
+  url: String
+}
+
+type House {
+  uuid: String
+  address: String
+  typeHouse: String
+  state: Boolean
+  detail: String
+  images: [Image]
+}
+type Query {
+  getHouses: [House!]
+  getHouse(uuid: String!): House!
+}

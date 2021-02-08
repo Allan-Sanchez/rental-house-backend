@@ -1,5 +1,6 @@
 import { mergeTypeDefs } from "graphql-tools";
 import User from "./User.graphql";
-const types = [User];
+import House from "./House.graphql";
+const types = [User,House];
 
 export default mergeTypeDefs(types);
