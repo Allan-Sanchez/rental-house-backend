@@ -20,6 +20,15 @@ input UserInput {
   phone: String!
   role: ROLES!
 }
+input UserInputUpdate {
+  name: String
+  password: String
+  age: Int
+  address: String
+  dpi: String
+  phone: String
+  role: ROLES
+}
 type Token {
   token: String
 }
@@ -29,10 +38,12 @@ enum ROLES {
   ADMIN
 }
 type Query {
-  getUsers:[User!]
-  getUser(uuid:String!):User!
+  getUsers: [User!]
+  getUser(uuid: String!): User!
 }
 
 type Mutation {
   newUser(fields: UserInput): User
+  deleteUser(uuid: String!): String
+  updateUser(uuid: String!, fields: UserInputUpdate!):User
 }

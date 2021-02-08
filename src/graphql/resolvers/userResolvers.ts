@@ -17,10 +17,9 @@ const userResolvers: IResolvers = {
       const { uuid } = arg;
       try {
         const user = await prisma.user.findFirst({
-          where: { uuid }
+          where: { uuid },
         });
         return user;
-        
       } catch (error) {
         console.log(error);
       }
@@ -40,6 +39,33 @@ const userResolvers: IResolvers = {
       } catch (error) {
         console.log(error);
       }
+    },
+    async deleteUser(_: void, arg: any) {
+      const { uuid } = arg;
+      try {
+        await prisma.user.deleteMany({
+          where: { uuid },
+        });
+        return "user deleted successfully";
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    async updateUser(_: void, arg: any) {
+      const { uuid, fields } = arg;
+      try {
+        await prisma.user.updateMany({
+          where: { uuid },
+          data:  fields,
+        });
+
+        return await prisma.user.findFirst({
+          where: { uuid },
+        });
+      } catch (error) {
+        console.log(error);
+      }
+
     },
   },
 };
