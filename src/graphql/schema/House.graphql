@@ -1,3 +1,5 @@
+scalar Upload
+
 type Image {
   uuid: String
   name: String
@@ -12,7 +14,28 @@ type House {
   detail: String
   images: [Image]
 }
+
+input HouseInput {
+  address: String!
+  typeHouse: String!
+  detail: String
+}
+input HouseInputUpdate {
+  address: String
+  typeHouse: String
+  detail: String
+}
+type File {
+  url: String!
+}
+
 type Query {
   getHouses: [House!]
   getHouse(uuid: String!): House!
+}
+
+type Mutation {
+  newHouse(fields: HouseInput): House!
+  updateHouse(uuid: String!, fields: HouseInputUpdate!): House!
+  uploadFile(file: Upload!): File!
 }
