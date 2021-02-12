@@ -14,25 +14,27 @@ model User {
   id        Int      @id @default(autoincrement())
   uuid      String   @default(uuid())
   name      String
+  email     String   @unique
   password  String
   age       Int
   address   String
-  dpi       String
+  dpi       String   @unique
   phone     String
   role      Roles    @default(USER)
   createdAt DateTime @default(now())
 }
 
 model House {
-  id        Int      @id @default(autoincrement())
-  uuid      String   @default(uuid())
+  id        Int       @id @default(autoincrement())
+  uuid      String    @default(uuid())
   address   String
   typeHouse String
-  state     Boolean  @default(false)
+  state     Boolean   @default(true)
+  nis       String    @unique
   detail    String?
   images    Image[]
-  payment   Payment?
-  createdAt DateTime @default(now())
+  payment   Payment[]
+  createdAt DateTime  @default(now())
 }
 
 model Image {
@@ -45,24 +47,28 @@ model Image {
 }
 
 model Tenant {
-  id       Int       @id @default(autoincrement())
-  uuid     String    @default(uuid())
-  name     String
-  age      Int?
-  DPI      String
-  phone    String
-  payments Payment[]
+  id        Int       @id @default(autoincrement())
+  uuid      String    @default(uuid())
+  name      String
+  age       Int?
+  dpi       String    @unique
+  phone     String
+  state     Boolean   @default(true)
+  payments  Payment[]
+  createdAt DateTime  @default(now())
+
 }
 
 model Payment {
-  id       Int     @id @default(autoincrement())
-  uuid     String  @default(uuid())
-  detail   String?
-  tenant   Tenant  @relation(fields: [tenantId], references: [id])
-  tenantId Int
-  house    House   @relation(fields: [houseId], references: [id])
-  houseId  Int
-
+  id        Int      @id @default(autoincrement())
+  uuid      String   @default(uuid())
+  pay       Float
+  detail    String?
+  tenant    Tenant   @relation(fields: [tenantId], references: [id])
+  tenantId  Int
+  house     House    @relation(fields: [houseId], references: [id])
+  houseId   Int
+  createdAt DateTime @default(now())
 }
 
 enum Roles {

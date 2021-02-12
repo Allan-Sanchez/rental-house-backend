@@ -27,8 +27,18 @@ const userResolvers: IResolvers = {
   },
   Mutation: {
     async newUser(_: void, arg: any) {
-      const { fields } = arg;
-
+      const {
+        fields,
+        fields: { email, dpi },
+      } = arg;
+      const emailExist = await prisma.user.findFirst({ where: { email } });
+      if (emailExist) {
+        throw new Error("User already exist, Email already exist");
+      }
+      const dpiExist = await prisma.user.findFirst({ where: { dpi } });
+      if (dpiExist) {
+        throw new Error("User already exist, DPI already exist");
+      }
       var salt = await bcryptjs.genSalt(10);
       fields.password = await bcryptjs.hash("rest", salt);
       try {
@@ -42,6 +52,10 @@ const userResolvers: IResolvers = {
     },
     async deleteUser(_: void, arg: any) {
       const { uuid } = arg;
+      const userExist = await prisma.user.findFirst({ where: { uuid } });
+      if (!userExist) {
+        throw new Error("User not exist");
+      }
       try {
         await prisma.user.deleteMany({
           where: { uuid },
@@ -53,10 +67,14 @@ const userResolvers: IResolvers = {
     },
     async updateUser(_: void, arg: any) {
       const { uuid, fields } = arg;
+      const userExist = await prisma.user.findFirst({ where: { uuid } });
+      if (!userExist) {
+        throw new Error("User not exist");
+      }
       try {
         await prisma.user.updateMany({
           where: { uuid },
-          data:  fields,
+          data: fields,
         });
 
         return await prisma.user.findFirst({
@@ -65,7 +83,6 @@ const userResolvers: IResolvers = {
       } catch (error) {
         console.log(error);
       }
-
     },
   },
 };

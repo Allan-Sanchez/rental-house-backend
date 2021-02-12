@@ -3,7 +3,7 @@ scalar Date
 type User {
   uuid: ID
   name: String
-  password: String
+  email: String
   age: Int
   address: String
   dpi: String
@@ -13,6 +13,7 @@ type User {
 }
 input UserInput {
   name: String!
+  email: String!
   password: String!
   age: Int!
   address: String!
@@ -22,6 +23,7 @@ input UserInput {
 }
 input UserInputUpdate {
   name: String
+  email: String
   password: String
   age: Int
   address: String
@@ -45,5 +47,5 @@ type Query {
 type Mutation {
   newUser(fields: UserInput): User
   deleteUser(uuid: String!): String
-  updateUser(uuid: String!, fields: UserInputUpdate!):User
+  updateUser(uuid: String!, fields: UserInputUpdate!): User
 }

@@ -12,17 +12,20 @@ type House {
   typeHouse: String
   state: Boolean
   detail: String
+  nis: String
   images: [Image]
 }
 
 input HouseInput {
   address: String!
   typeHouse: String!
+  nis: String!
   detail: String
 }
 input HouseInputUpdate {
   address: String
   typeHouse: String
+  nis: String
   detail: String
 }
 type File {
@@ -35,7 +38,8 @@ type Query {
 }
 
 type Mutation {
-  newHouse(fields: HouseInput): House!
+  newHouse(fields: HouseInput!): House!
   updateHouse(uuid: String!, fields: HouseInputUpdate!): House!
+  deleteHouse(uuid: String!): String
   uploadFile(file: Upload!): File!
 }

@@ -10,6 +10,9 @@ const houseResolvers: IResolvers = {
   Query: {
     async getHouses() {
       const houses = await prisma.house.findMany({
+        where: {
+          state: true,
+        },
         include: {
           images: true,
         },
@@ -18,13 +21,17 @@ const houseResolvers: IResolvers = {
     },
     async getHouse(_: void, arg: any) {
       let { uuid } = arg;
-      const house = await prisma.house.findFirst({
-        where: { uuid },
-        include: {
-          images: true,
-        },
-      });
-      return house;
+      try {
+        const house = await prisma.house.findFirst({
+          where: { uuid },
+          include: {
+            images: true,
+          },
+        });
+        return house;
+      } catch (error) {
+        console.log(error);
+      }
     },
   },
   Mutation: {
@@ -44,7 +51,16 @@ const houseResolvers: IResolvers = {
     },
 
     async newHouse(_: void, arg: any) {
-      const { fields } = arg;
+      const {
+        fields,
+        fields: { nis },
+      } = arg;
+      const houseExist = await prisma.house.findFirst({ where: { nis } });
+      if (houseExist) {
+        throw new Error(
+          "House already exist, please see the list of available houses"
+        );
+      }
       try {
         const house = await prisma.house.create({ data: fields });
         return house;
@@ -55,6 +71,10 @@ const houseResolvers: IResolvers = {
 
     async updateHouse(_: void, arg: any) {
       const { uuid, fields } = arg;
+      const houseExist = await prisma.house.findFirst({ where: { uuid } });
+      if (!houseExist) {
+        throw new Error("House not exist");
+      }
       try {
         await prisma.house.updateMany({
           where: {
@@ -64,6 +84,25 @@ const houseResolvers: IResolvers = {
         });
 
         return await prisma.house.findFirst({ where: { uuid } });
+      } catch (error) {
+        console.log(error);
+      }
+    },
+
+    async deleteHouse(_: void, arg: any) {
+      const { uuid } = arg;
+      const houseExist = await prisma.house.findFirst({ where: { uuid } });
+      if (!houseExist) {
+        throw new Error("House not exist");
+      }
+      try {
+        await prisma.house.updateMany({
+          where: { uuid },
+          data: {
+            state: false,
+          },
+        });
+        return "House deleted successfully";
       } catch (error) {
         console.log(error);
       }

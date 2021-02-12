@@ -1,0 +1,31 @@
+type Tenant {
+  uuid: String
+  name: String
+  age: Int
+  dpi: String
+  phone: String
+  state: Boolean
+  payments: [Payment]
+}
+input TenantInput {
+  name: String!
+  age: Int
+  dpi: String!
+  phone: String!
+}
+input TenantInputUpdate {
+  name: String
+  age: Int
+  dpi: String
+  phone: String
+}
+type Query{
+    getTenants: [Tenant!]
+    getTenant(uuid: String!): Tenant!
+}
+
+type Mutation{
+  newTenant(fields: TenantInput!): Tenant!
+  updateTenant(uuid: String!,fields: TenantInputUpdate!): Tenant!
+  deleteTenant(uuid: String!): String
+}

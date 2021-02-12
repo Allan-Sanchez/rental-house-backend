@@ -1,0 +1,5 @@
+type Payment {
+  uuid: String
+  detail: String
+  pay: Float
+}
