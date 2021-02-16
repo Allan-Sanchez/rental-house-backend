@@ -2,4 +2,35 @@ type Payment {
   uuid: String
   detail: String
   pay: Float
+  tenantId: ID
+  houseId: ID
+}
+type PaymentFull {
+  uuid: String
+  detail: String
+  pay: Float
+  tenant: Tenant
+  house: House
+}
+input PaymentInput {
+  detail: String
+  pay: Float!
+  tenantId: Int!
+  houseId: Int!
+}
+input PaymentInputUpdate {
+  detail: String
+  pay: Float
+  tenantId: Int
+  houseId: Int
+}
+
+type Query {
+  getPayments: [PaymentFull!]!
+  getPayment(uuid: String!): PaymentFull!
+}
+type Mutation {
+  newPayment(fields: PaymentInput!): Payment!
+  updatePayment(uuid: String!, fields: PaymentInputUpdate!): Payment!
+  deletePayment(uuid: String!): String
 }

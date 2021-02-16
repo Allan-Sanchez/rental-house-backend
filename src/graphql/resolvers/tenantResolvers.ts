@@ -1,6 +1,5 @@
 import { IResolvers } from "graphql-tools";
 import { PrismaClient } from "@prisma/client";
-import { EROFS } from "constants";
 const prisma = new PrismaClient();
 
 const tenantResolvers: IResolvers = {
